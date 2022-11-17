@@ -1,0 +1,17 @@
+version: "3"
+services:
+  db:
+    image: postgres:14
+    mem_limit: 1536MB
+    mem_reservation: 1G
+    environment:
+      POSTGRES_USER: school 
+      POSTGRES_PASSWORD: "school"
+      POSTGRES_DB: school 
+    ports:
+    - "5432:5432"
+    volumes:
+    - pg-data:/var/lib/postgresql/data
+
+volumes:
+  pg-data:
