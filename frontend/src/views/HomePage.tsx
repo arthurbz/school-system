@@ -2,10 +2,25 @@ import { Link } from "react-router-dom"
 
 function HomePage() {
     return (
-        <>
-            <Link to="/professors">Professors</Link>
-            <Link to="/students">Students</Link>
-        </>
+        <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 100,
+            height: "90vh",
+        }}>
+            <Link to="/professors">
+                <h1>
+                    Professors
+                </h1>
+            </Link>
+
+            <Link to="/students">
+                <h1>
+                    Students
+                </h1>
+            </Link>
+        </div>
     )
 }
 

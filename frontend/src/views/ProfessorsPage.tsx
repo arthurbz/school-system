@@ -1,6 +1,6 @@
 function ProfessorsPage() {
     return (
-        <h1>Professors</h1>
+        <h1>Alunos da Instituição</h1>
     )
 }
 
