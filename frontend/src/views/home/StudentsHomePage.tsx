@@ -1,13 +1,10 @@
 import { useState } from "react"
 import { Button, Box, TextField, Typography } from "@mui/material"
 
-function StudentsPage() {
+function StudentsHomePage() {
     const [studentId, setStudentId] = useState("clb5orj5m0000yep4yu5efp3m")
     const [student, setStudent] = useState({})
     const [loggedIn, setLoggedIn] = useState(false)
-    const [showGrades, setShowGrades] = useState(false)
-    const [showHistory, setShowHistory] = useState(false)
-    const [history, setHistory] = useState([])
 
     const handleLogin = () => {
         if (studentId) {
@@ -15,7 +12,7 @@ function StudentsPage() {
                 { method: "GET" }
             )
                 .then(response => {
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         console.log("Login Success")
                         setLoggedIn(true)
                         return response.json()
@@ -25,22 +22,6 @@ function StudentsPage() {
                 })
                 .then(data => setStudent(student))
         }
-    }
-
-    const handleHistory = () => {
-        fetch(`http://localhost:8000/enrollment/student/${studentId}`,
-            { method: "GET" }
-        )
-            .then(response => response.json())
-            .then(data => setHistory(data))
-
-        setShowHistory(true)
-        setShowGrades(false)
-    }
-
-    const handleGrades = () => {
-        setShowGrades(true)
-        setShowHistory(false)
     }
 
     return (
@@ -78,7 +59,6 @@ function StudentsPage() {
                         <Button
                             variant="contained"
                             sx={{ fontWeight: "bold" }}
-                            onClick={handleHistory}
                         >
                             Histórico Escolar
                         </Button>
@@ -86,41 +66,13 @@ function StudentsPage() {
                         <Button
                             variant="contained"
                             sx={{ fontWeight: "bold" }}
-                            onClick={handleHistory}
                         >
                             Todas Notas
                         </Button>
                     </Box>
             }
-
-            {/*SCHOLAR HISTORY*/}
-            {
-                showHistory ?
-                    <Box>
-                        <Typography> Histórico Escolar </Typography>
-                        {history.length > 0 ?
-                            <>
-                                {
-                                    history.map((course) => {
-                                        return <h1>{course}</h1>
-                                    })
-                                }
-                            </>
-                            : <Typography>Sem Disciplinas</Typography>
-                        }
-                    </Box>
-                    : <></>
-            }
-
-            {/*SEARCH GRADE*/}
-            {
-                showHistory ?
-                    <Box>
-                    </Box>
-                    : <></>
-            }
         </Box>
     )
 }
 
-export default StudentsPage
+export default StudentsHomePage

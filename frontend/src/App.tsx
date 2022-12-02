@@ -1,15 +1,28 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import HomePage from "./views/HomePage"
-import ProfessorsPage from "./views/ProfessorsPage"
-import StudentsPage from "./views/StudentsPage"
+import HomePage from "./views/home/HomePage"
+
+import SchoolHomePage from "./views/home/SchoolHomePage"
+import StudentsHomePage from "./views/home/StudentsHomePage"
+
+import Students from "./views/Students"
+import Professors from "./views/Profesors"
+import Courses from "./views/Courses"
+import Enrollments from "./views/Enrollments"
+import SchoolHistory from "./views/SchoolHistory"
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/professors" element={<ProfessorsPage />} />
-                <Route path="/students" element={<StudentsPage />} />
+                <Route path="/school-home" element={<SchoolHomePage />} />
+                <Route path="/student-home" element={<StudentsHomePage />} />
+
+                <Route path="/students" element={<Students />} />
+                <Route path="/professors" element={<Professors />} />
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/enrollments" element={<Enrollments />} />
+                <Route path="/school-history" element={<SchoolHistory />} />
             </Routes>
         </BrowserRouter>
     )
