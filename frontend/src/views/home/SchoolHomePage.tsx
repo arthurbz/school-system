@@ -14,8 +14,8 @@ function SchoolHomePage() {
                 height: "90vh",
             }}
         >
-            <Typography variant="h3">
-                Área de Professores
+            <Typography variant="h3" sx={{ fontWeight: "700" }}>
+                👨‍🏫 Área de Professores
             </Typography>
 
             <Box sx={{ mt: 10, display: "flex", gap: 10 }}>
