@@ -13,42 +13,43 @@ const style = {
     p: 4,
 };
 
-function CreateCourse() {
+function EnrollStudent() {
     const [open, setOpen] = useState(false)
-
-    const [title, setTitle] = useState("")
-    const [date, setDate] = useState("")
-    const [professorId, setProfessorId] = useState("")
-    const [professors, setProfessors] = useState([])
+    const [students, setStudents] = useState([])
+    const [courses, setCourses] = useState([])
+    const [studentId, setStudentId] = useState("")
+    const [courseId, setCourseId] = useState("")
 
     useEffect(() => {
-        fetch(`http://localhost:8000/professor`, { method: "GET" })
+        fetch(`http://localhost:8000/student`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
-                setProfessors(data)
+                setStudents(data)
+            })
+
+        fetch(`http://localhost:8000/course`, { method: "GET" })
+            .then(response => response.json())
+            .then(data => {
+                setCourses(data)
             })
     }, [])
 
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
 
-    const handleChangeTitle = (event: any) => {
-        setTitle(event.target.value)
+    const handleChangeCourseId = (event: any) => {
+        setCourseId(event.target.value)
     }
 
-    const handleChangeDate = (event: any) => {
-        setDate(event.target.value)
-    }
-
-    const handleChangeSelect = (event: any) => {
-        setProfessorId(event.target.value)
+    const handleChangeStudentId = (event: any) => {
+        setStudentId(event.target.value)
     }
 
     const submitForm = () => {
-        fetch("http://localhost:8000/course", {
+        fetch("http://localhost:8000/enrollment", {
             method: "POST",
             headers: { "Content-Type": "application/json", },
-            body: JSON.stringify({ title, date, professorId }),
+            body: JSON.stringify({ courseId, studentId }),
         })
 
         setOpen(false)
@@ -79,36 +80,36 @@ function CreateCourse() {
                     }}
                     >
                         <Typography variant="h5">
-                            Cadastro de Disciplinas:
+                            Matrícular aluno em disciplina:
                         </Typography>
 
-                        <TextField
-                            sx={{ width: "100%" }}
-                            variant="filled"
-                            label="Nome"
-                            value={title}
-                            onChange={handleChangeTitle}
-                        />
-
-                        <TextField
-                            sx={{ width: "100%" }}
-                            variant="filled"
-                            label="Data de Início"
-                            value={date}
-                            onChange={handleChangeDate}
-                        />
-
                         <FormControl fullWidth>
-                            <InputLabel sx={{ mt: 1 }}>Professor</InputLabel>
+                            <InputLabel sx={{ mt: 1 }}>Aluno</InputLabel>
                             <Select
                                 variant="filled"
-                                label="Professor"
-                                value={professorId}
-                                onChange={handleChangeSelect}
+                                label="Aluno"
+                                value={studentId}
+                                onChange={handleChangeStudentId}
                             >
-                                {professors.map((professor: any) => {
-                                    return <MenuItem key={professor.id} value={professor.id} >
-                                        {professor.name}
+                                {students.map((student: any) => {
+                                    return <MenuItem key={student.id} value={student.id} >
+                                        {student.name}
+                                    </MenuItem>
+                                })}
+                            </Select>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputLabel sx={{ mt: 1 }}>Disciplina</InputLabel>
+                            <Select
+                                variant="filled"
+                                label="Disciplina"
+                                value={courseId}
+                                onChange={handleChangeCourseId}
+                            >
+                                {courses.map((course: any) => {
+                                    return <MenuItem key={course.id} value={course.id} >
+                                        {course.title}
                                     </MenuItem>
                                 })}
                             </Select>
@@ -127,4 +128,4 @@ function CreateCourse() {
     )
 }
 
-export default CreateCourse
+export default EnrollStudent

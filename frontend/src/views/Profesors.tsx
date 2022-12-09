@@ -10,8 +10,10 @@ function Professors() {
         fetch(`http://localhost:8000/professor`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
+                data.sort((a: any, b: any) => {
+                    return a.id ? 1 : a.id > b.id ? -1 : 0
+                })
                 setProfessors(data)
-                console.log(data)
             })
     }, [])
 
@@ -33,7 +35,7 @@ function Professors() {
             {professors.map((professor: any) => {
                 return (
                     <Box key={professor.id}>
-                        <Card elevation={3} sx={{ width: "100%", p: 2, borderRadius: 5, mt: 2 }}>
+                        <Card elevation={3} sx={{ width: "100%", p: 4, borderRadius: 5, mt: 2 }}>
                             <Typography><b>Matrícula:</b> {professor.id}</Typography>
                             <Typography><b>Professor:</b> {professor.name}</Typography>
                             <Typography><b>Data de Nascimento:</b> {professor.birthdate}</Typography>

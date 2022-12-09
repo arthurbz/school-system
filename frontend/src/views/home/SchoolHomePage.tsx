@@ -48,15 +48,7 @@ function SchoolHomePage() {
                     sx={{ fontWeight: "bold", fontSize: 25 }}
                     onClick={() => { navigate("/enrollments") }}
                 >
-                    Notas
-                </Button>
-
-                <Button
-                    variant="contained"
-                    sx={{ fontWeight: "bold", fontSize: 25 }}
-                    onClick={() => { navigate("/school-history") }}
-                >
-                    Históricos Escolares
+                    Matrículas
                 </Button>
             </Box>
         </Box>

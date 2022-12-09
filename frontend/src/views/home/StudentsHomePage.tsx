@@ -1,10 +1,14 @@
-import { useState } from "react"
-import { Button, Box, TextField, Typography } from "@mui/material"
+import { useState, useEffect } from "react"
+import { Button, FormControl, InputLabel, Select, MenuItem, Box, TextField, Typography } from "@mui/material"
+import SchoolHistoryModal from "../../components/SchoolHistoryModal"
 
 function StudentsHomePage() {
-    const [studentId, setStudentId] = useState("clb5orj5m0000yep4yu5efp3m")
+    const [studentId, setStudentId] = useState("")
+    const [enrollmentId, setEnrollmentId] = useState("")
     const [student, setStudent] = useState({})
     const [loggedIn, setLoggedIn] = useState(false)
+    const [enrollments, setEnrollments] = useState([])
+    const [enrollment, setEnrollment] = useState<any>({})
 
     const handleLogin = () => {
         if (studentId) {
@@ -13,7 +17,6 @@ function StudentsHomePage() {
             )
                 .then(response => {
                     if (response.status === 200) {
-                        console.log("Login Success")
                         setLoggedIn(true)
                         return response.json()
                     }
@@ -24,12 +27,23 @@ function StudentsHomePage() {
         }
     }
 
+    useEffect(() => {
+        fetch(`http://localhost:8000/enrollment`, { method: "GET" })
+            .then(response => response.json())
+            .then(data => {
+                setEnrollments(data)
+            })
+    }, [])
+
+    const handleChangeEnrollmentId = (event: any) => {
+        setEnrollmentId(event.target.value)
+    }
+
     return (
         <Box sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
             height: "90vh"
         }}>
             <Typography variant="h3">
@@ -55,23 +69,37 @@ function StudentsHomePage() {
                         </Button>
                     </div>
                     :
-                    <Box sx={{ display: "flex", gap: 5 }}>
-                        <Button
-                            variant="contained"
-                            sx={{ fontWeight: "bold" }}
-                        >
-                            Histórico Escolar
-                        </Button>
+                    <Box>
+                        <SchoolHistoryModal studentId={studentId} />
 
-                        <Button
-                            variant="contained"
-                            sx={{ fontWeight: "bold" }}
-                        >
-                            Todas Notas
-                        </Button>
+                        {/*<Box sx={{ display: "column" }}>
+                            <Typography variant="h5" sx={{ mt: 10 }}>
+                                Buscar nota por disciplina:
+                            </Typography>
+
+                            <FormControl fullWidth>
+                                <InputLabel sx={{ mt: 1 }}>Disciplina</InputLabel>
+
+                                <Box sx={{ display: "flex" }}>
+                                    <Select
+                                        variant="filled"
+                                        label="Disciplina"
+                                        value={enrollmentId}
+                                        onChange={handleChangeEnrollmentId}
+                                        sx={{ width: 300 }}
+                                    >
+                                        {enrollments.map((enrollment: any) => {
+                                            return <MenuItem key={enrollment.id} value={enrollment.id} >
+                                                {enrollment.course.title}
+                                            </MenuItem>
+                                        })}
+                                    </Select>
+                                </Box>
+                            </FormControl>
+                                    </Box>*/}
                     </Box>
             }
-        </Box>
+        </Box >
     )
 }
 

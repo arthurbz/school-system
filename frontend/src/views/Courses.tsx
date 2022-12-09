@@ -9,8 +9,10 @@ function Courses() {
         fetch(`http://localhost:8000/course`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
+                data.sort((a: any, b: any) => {
+                    return a.id ? 1 : a.id > b.id ? -1 : 0
+                })
                 setCourses(data)
-                console.log(data)
             })
     }, [])
 
@@ -32,7 +34,7 @@ function Courses() {
             {courses.map((course: any) => {
                 return (
                     <Box key={course.id}>
-                        <Card elevation={3} sx={{ width: "100%", p: 2, borderRadius: 5, mt: 2 }}>
+                        <Card elevation={3} sx={{ width: "100%", p: 4, borderRadius: 5, mt: 2 }}>
                             <Typography variant="h5">Curso</Typography>
                             <Typography><b>Id:</b> {course.id}</Typography>
                             <Typography><b>Nome:</b> {course.title}</Typography>

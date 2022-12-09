@@ -1,6 +1,7 @@
 import { Box, Card, Typography } from "@mui/material"
 import { useState, useEffect } from "react"
 import EditStudentGrade from "../components/EditStudentGrade"
+import EnrollStudent from "../components/EnrollStudent"
 
 function Enrollments() {
     const [enrollments, setEnrollmnets] = useState([])
@@ -9,6 +10,9 @@ function Enrollments() {
         fetch(`http://localhost:8000/enrollment`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
+                data.sort((a: any, b: any) => {
+                    return a.id ? 1 : a.id > b.id ? -1 : 0
+                })
                 setEnrollmnets(data)
             })
     }, [])
@@ -24,13 +28,14 @@ function Enrollments() {
             }}
         >
             <Box sx={{ display: "flex" }}>
-                <Typography variant="h3">Listando todas Notas:</Typography>
+                <EnrollStudent />
+                <Typography variant="h3">Listando todas Matrículas de Alunos:</Typography>
             </Box>
 
             {enrollments.map((enrollment: any) => {
                 return (
                     <Box key={enrollment.id}>
-                        <Card elevation={3} sx={{ width: "100%", p: 2, borderRadius: 5, mt: 2 }}>
+                        <Card elevation={3} sx={{ width: "100%", p: 4, borderRadius: 5, mt: 2 }}>
                             <Typography variant="h5" sx={{ mt: 2 }}>Matrícula nesta Disciplina</Typography>
                             <Typography><b>Data de Inscrição:</b> {enrollment.enrollmentDate}</Typography>
                             <Typography><b>Nota Final:</b> {enrollment.grade}</Typography>

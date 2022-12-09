@@ -8,7 +8,6 @@ import Students from "./views/Students"
 import Professors from "./views/Profesors"
 import Courses from "./views/Courses"
 import Enrollments from "./views/Enrollments"
-import SchoolHistory from "./views/SchoolHistory"
 
 function App() {
     return (
@@ -22,7 +21,6 @@ function App() {
                 <Route path="/professors" element={<Professors />} />
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/enrollments" element={<Enrollments />} />
-                <Route path="/school-history" element={<SchoolHistory />} />
             </Routes>
         </BrowserRouter>
     )

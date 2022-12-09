@@ -31,8 +31,7 @@ function EditStudentGrade({ enrollmentId, studentName }: { enrollmentId: string,
     }
 
     const handleChange = (event: any) => {
-        console.log(parseInt(event.target.value))
-        setGrade(parseInt(event.target.value))
+        setGrade(parseFloat(event.target.value))
     }
 
     return (
