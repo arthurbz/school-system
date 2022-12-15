@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material"
+import { Box, Button, Card, Typography } from "@mui/material"
 import { useState, useEffect } from "react"
 
 import CreateProfessor from "../components/CreateProfessor"
@@ -7,6 +7,10 @@ function Professors() {
     const [professors, setProfessors] = useState([])
 
     useEffect(() => {
+        getProfessors()
+    }, [])
+
+    const getProfessors = () => {
         fetch(`http://localhost:8000/professor`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
@@ -15,7 +19,12 @@ function Professors() {
                 })
                 setProfessors(data)
             })
-    }, [])
+    }
+
+    const deleteProfessor = (professorId: string) => {
+        fetch(`http://localhost:8000/professor/${professorId}`, { method: "DELETE" })
+            .then(() => getProfessors())
+    }
 
     return (
         <Box
@@ -28,7 +37,7 @@ function Professors() {
             }}
         >
             <Box sx={{ display: "flex" }}>
-                <CreateProfessor />
+                <CreateProfessor callback={getProfessors} />
                 <Typography variant="h3">Listando todos Professores:</Typography>
             </Box>
 
@@ -39,6 +48,17 @@ function Professors() {
                             <Typography><b>Matrícula:</b> {professor.id}</Typography>
                             <Typography><b>Professor:</b> {professor.name}</Typography>
                             <Typography><b>Data de Nascimento:</b> {professor.birthdate}</Typography>
+
+                            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <Button
+                                    color="error"
+                                    variant="contained"
+                                    sx={{ mt: 2, height: "100%" }}
+                                    onClick={() => deleteProfessor(professor.id)}
+                                >
+                                    Deletar
+                                </Button>
+                            </Box>
                         </Card>
                     </Box>
                 )

@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material"
+import { Box, Button, Card, Typography } from "@mui/material"
 import { useState, useEffect } from "react"
 import CreateCourse from "../components/CreateCourse"
 
@@ -6,6 +6,10 @@ function Courses() {
     const [courses, setCourses] = useState([])
 
     useEffect(() => {
+        getCourses()
+    }, [])
+
+    const getCourses = () => {
         fetch(`http://localhost:8000/course`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
@@ -14,7 +18,12 @@ function Courses() {
                 })
                 setCourses(data)
             })
-    }, [])
+    }
+
+    const deleteCourse = (courseId: string) => {
+        fetch(`http://localhost:8000/course/${courseId}`, { method: "DELETE" })
+            .then(() => getCourses())
+    }
 
     return (
         <Box
@@ -27,7 +36,7 @@ function Courses() {
             }}
         >
             <Box sx={{ display: "flex" }}>
-                <CreateCourse />
+                <CreateCourse callback={getCourses} />
                 <Typography variant="h3">Listando todas Disciplinas:</Typography>
             </Box>
 
@@ -44,12 +53,23 @@ function Courses() {
                             <Typography><b>Matrícula:</b> {course.Professor.id}</Typography>
                             <Typography><b>Nome:</b> {course.Professor.name}</Typography>
                             <Typography><b>Data de Nascimento:</b> {course.Professor.birthdate}</Typography>
+
+                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                <Button
+                                    color="error"
+                                    variant="contained"
+                                    sx={{ mt: 2 }}
+                                    onClick={() => deleteCourse(course.id)}
+                                >
+                                    Deletar
+                                </Button>
+                            </Box>
                         </Card>
-                    </Box>
+                    </Box >
                 )
             })}
 
-        </Box>
+        </Box >
     )
 }
 

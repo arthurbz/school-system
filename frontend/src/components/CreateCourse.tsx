@@ -13,7 +13,7 @@ const style = {
     p: 4,
 };
 
-function CreateCourse() {
+function CreateCourse({ callback }: { callback: Function }) {
     const [open, setOpen] = useState(false)
 
     const [title, setTitle] = useState("")
@@ -50,6 +50,7 @@ function CreateCourse() {
             headers: { "Content-Type": "application/json", },
             body: JSON.stringify({ title, date, professorId }),
         })
+            .then(() => callback())
 
         setOpen(false)
     }

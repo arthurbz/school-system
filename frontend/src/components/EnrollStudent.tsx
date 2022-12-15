@@ -13,7 +13,7 @@ const style = {
     p: 4,
 };
 
-function EnrollStudent() {
+function EnrollStudent({ callback }: { callback: Function }) {
     const [open, setOpen] = useState(false)
     const [students, setStudents] = useState([])
     const [courses, setCourses] = useState([])
@@ -51,6 +51,7 @@ function EnrollStudent() {
             headers: { "Content-Type": "application/json", },
             body: JSON.stringify({ courseId, studentId }),
         })
+        .then(() => callback())
 
         setOpen(false)
     }

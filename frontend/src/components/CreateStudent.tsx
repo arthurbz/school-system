@@ -13,7 +13,7 @@ const style = {
     p: 4,
 };
 
-function CreateStudent() {
+function CreateStudent({ callback }: { callback: Function }) {
     const [open, setOpen] = useState(false)
 
     const [name, setName] = useState("")
@@ -36,6 +36,7 @@ function CreateStudent() {
             headers: { "Content-Type": "application/json", },
             body: JSON.stringify({ name, birthdate }),
         })
+        .then(() => callback())
 
         setOpen(false)
     }

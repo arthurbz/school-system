@@ -39,7 +39,6 @@ function SchoolHistoryModal({ studentId }: { studentId: string }) {
     return (
         <>
             <Button
-                sx={{ margin: "auto" }}
                 variant="contained"
                 onClick={handleOpen}
             >

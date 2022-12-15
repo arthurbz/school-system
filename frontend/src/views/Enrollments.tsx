@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material"
+import { Box, Button, Card, Typography } from "@mui/material"
 import { useState, useEffect } from "react"
 import EditStudentGrade from "../components/EditStudentGrade"
 import EnrollStudent from "../components/EnrollStudent"
@@ -7,6 +7,10 @@ function Enrollments() {
     const [enrollments, setEnrollmnets] = useState([])
 
     useEffect(() => {
+        getEnrollments()
+    }, [])
+
+    const getEnrollments = () => {
         fetch(`http://localhost:8000/enrollment`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
@@ -15,7 +19,12 @@ function Enrollments() {
                 })
                 setEnrollmnets(data)
             })
-    }, [])
+    }
+
+    const deleteEnrollment = (enrollmentId: string) => {
+        fetch(`http://localhost:8000/enrollment/${enrollmentId}`, { method: "DELETE" })
+            .then(() => getEnrollments())
+    }
 
     return (
         <Box
@@ -28,7 +37,7 @@ function Enrollments() {
             }}
         >
             <Box sx={{ display: "flex" }}>
-                <EnrollStudent />
+                <EnrollStudent callback={getEnrollments} />
                 <Typography variant="h3">Listando todas Matrículas de Alunos:</Typography>
             </Box>
 
@@ -53,14 +62,23 @@ function Enrollments() {
                                     key={enrollment.id}
                                     enrollmentId={enrollment.id}
                                     studentName={enrollment.student.name}
+                                    callback={getEnrollments}
                                 />
+
+                                <Button
+                                    color="error"
+                                    variant="contained"
+                                    onClick={() => deleteEnrollment(enrollment.id)}
+                                >
+                                    Deletar
+                                </Button>
                             </Box>
                         </Card>
-                    </Box>
+                    </Box >
                 )
             })}
 
-        </Box>
+        </Box >
     )
 }
 

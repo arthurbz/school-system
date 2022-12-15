@@ -13,7 +13,7 @@ const style = {
     p: 4,
 };
 
-function EditStudentGrade({ enrollmentId, studentName }: { enrollmentId: string, studentName: string }) {
+function EditStudentGrade({ enrollmentId, studentName, callback }: { enrollmentId: string, studentName: string, callback: Function }) {
     const [open, setOpen] = useState(false)
     const [grade, setGrade] = useState(0)
 
@@ -26,6 +26,7 @@ function EditStudentGrade({ enrollmentId, studentName }: { enrollmentId: string,
             headers: { "Content-Type": "application/json", },
             body: JSON.stringify({ grade }),
         })
+        .then(() => callback())
 
         setOpen(false)
     }

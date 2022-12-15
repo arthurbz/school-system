@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material"
+import { Box, Button, Card, Typography } from "@mui/material"
 import { useState, useEffect } from "react"
 
 import CreateStudent from "../components/CreateStudent"
@@ -8,6 +8,10 @@ function Students() {
     const [students, setStudents] = useState([])
 
     useEffect(() => {
+        getStudents()
+    }, [])
+
+    const getStudents = () => {
         fetch(`http://localhost:8000/student`, { method: "GET" })
             .then(response => response.json())
             .then(data => {
@@ -16,7 +20,12 @@ function Students() {
                 })
                 setStudents(data)
             })
-    }, [])
+    }
+
+    const deleteStudent = (studentId: string) => {
+        fetch(`http://localhost:8000/student/${studentId}`, { method: "DELETE" })
+            .then(() => getStudents())
+    }
 
     return (
         <Box
@@ -29,7 +38,7 @@ function Students() {
             }}
         >
             <Box sx={{ display: "flex" }}>
-                <CreateStudent />
+                <CreateStudent callback={getStudents} />
                 <Typography variant="h3">Listando todos Alunos:</Typography>
             </Box>
 
@@ -41,8 +50,16 @@ function Students() {
                             <Typography><b>Aluno:</b> {student.name}</Typography>
                             <Typography><b>Data de Nascimento:</b> {student.birthdate}</Typography>
 
-                            <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+                            <Box sx={{ display: "flex", justifyContent: "center", mt: 2, gap: "2em", alignItems: "center" }}>
                                 <SchoolHistoryModal studentId={student.id} />
+
+                                <Button
+                                    color="error"
+                                    variant="contained"
+                                    onClick={() => deleteStudent(student.id)}
+                                >
+                                    Deletar
+                                </Button>
                             </Box>
                         </Card>
                     </Box>
